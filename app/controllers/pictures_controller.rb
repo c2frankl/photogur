@@ -1,33 +1,30 @@
 class PicturesController < ApplicationController
 
-    def index
+  def index
         @pictures = Picture.all
-    end
+  end
 
-    def show
+  def show
         @picture = Picture.find(params[:id])
-    end
+  end
 
-    def new
-        @picture = Pictures.new
-    end
+  def new
+        @picture = Picture.new
+  end
 
-    def create
-        render :text => "Saving a picture. URL: #{params[:url]}, Title: #{params[:title]}, Artist: #{params[:artist]}"
-        @picture = Picture.new(picture_params)
-        if @picture.save
+  def create
+      render :text => "Saving a picture. URL: #{params[:url]}, Title: #{params[:title]}, Artist: #{params[:artist]}"
+      @picture = Picture.new(picture_params)
+  if @picture.save
             redirect_to pictures_url
-        else
-            render :new
-        end
-    end
+  else
+      render :new
+  end
+end
 
-    private
-    def picture_params
-        params.require(:picture).permit(:artist, :title, :url)
-    end
 
-    def edit
+
+  def edit
     @picture = Picture.find(params[:id])
   end
 
@@ -40,6 +37,17 @@ class PicturesController < ApplicationController
       render :edit
     end
   end
+
+  def destroy
+    @picture = Picture.find(params[:id])
+    @picture.destroy
+    redirect_to pictures_url
+  end
+
+ private
+    def picture_params
+        params.require(:picture).permit(:artist, :title, :url)
+    end
 end
 
 #This is the controller
